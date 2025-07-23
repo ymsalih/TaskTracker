@@ -1,0 +1,66 @@
+﻿@page
+@model TaskTracker.Pages.Tasks.ListModel
+@{
+    ViewData["Title"] = "Görev Listesi";
+}
+
+<h2 class="mb-4">Görev Listesi</h2>
+
+<!-- 🔍 Proje filtreleme dropdown'u -->
+<form method="get" class="mb-3">
+    <label for="projectFilter" class="form-label">Proje Filtrele</label>
+    <select id="projectFilter" name="projectId" class="form-select w-25 d-inline" onchange="this.form.submit()">
+        <option value="">Tüm Projeler</option>
+        @foreach (var project in Model.ProjectOptions)
+        {
+            <option value="@project.Value" selected="@(project.Value == Model.SelectedProjectId?.ToString() ? "selected" : null)">
+                @project.Text
+            </option>
+        }
+    </select>
+</form>
+
+<!-- 📋 Görevler tablosu -->
+<table class="table table-bordered table-striped">
+    <thead class="table-dark">
+        <tr>
+            <th>ID</th>
+            <th>Başlık</th>
+            <th>Öncelik</th>
+            <th>Açıklama</th>
+            <th>Durum</th>
+            <th>Proje</th>
+            <th>Kullanıcı</th>
+            <th>İşlem</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var task in Model.Tasks)
+        {
+            <tr>
+                <td>@task.Id</td>
+                <td>@task.Title</td>
+                <td>@task.Priority</td>
+                <td>@task.Description</td>
+                <td>@task.Status</td>
+                <td>@task.Project?.Title</td>
+                <td>
+                    @if (task.AssignedUser != null)
+                    {
+                        @($"{task.AssignedUser.Name} (ID: {task.AssignedUser.Id})")
+                    }
+                    else
+                    {
+                        <em class="text-muted">Atanmadı</em>
+                    }
+                </td>
+                <td>
+                    <a asp-page="Edit" asp-route-id="@task.Id" class="btn btn-sm btn-outline-primary">Düzenle</a>
+                    <a asp-page="Delete" asp-route-id="@task.Id" class="btn btn-sm btn-outline-danger ms-2">Sil</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-page="Add" class="btn btn-success mt-3">Yeni Görev Ekle</a>

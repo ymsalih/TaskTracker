@@ -1,0 +1,48 @@
+﻿@page "{id:int}"
+@model TaskTracker.Pages.Projects.EditModel
+@{
+    ViewData["Title"] = "Proje Düzenle";
+}
+
+<h2 class="mb-4">Proje Düzenle</h2>
+
+<form method="post">
+    <input type="hidden" asp-for="Project.Id" />
+
+    <div class="mb-3">
+        <label asp-for="Project.Title" class="form-label"></label>
+        <input asp-for="Project.Title" class="form-control" />
+        <span asp-validation-for="Project.Title" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Project.StartDate" class="form-label"></label>
+        <input asp-for="Project.StartDate"
+               type="date"
+               class="form-control"
+               min="@DateTime.Today.ToString("yyyy-MM-dd")"
+               value="@Model.Project.StartDate.ToString("yyyy-MM-dd")" />
+        <span asp-validation-for="Project.StartDate" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Project.Description" class="form-label">Proje Açıklaması</label>
+        <textarea asp-for="Project.Description" class="form-control" rows="4" placeholder="Proje hakkında açıklama girin..."></textarea>
+        <span asp-validation-for="Project.Description" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Project.EndDate" class="form-label"></label>
+        <input asp-for="Project.EndDate"
+               type="date"
+               class="form-control"
+               min="@DateTime.Today.ToString("yyyy-MM-dd")"
+               value="@Model.Project.EndDate.ToString("yyyy-MM-dd")" />
+        <span asp-validation-for="Project.EndDate" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Güncelle</button>
+    <a asp-page="List" class="btn btn-secondary ms-2">İptal</a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

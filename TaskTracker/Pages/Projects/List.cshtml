@@ -1,0 +1,38 @@
+﻿@page
+@model TaskTracker.Pages.Projects.ListModel
+@{
+    ViewData["Title"] = "Proje Listesi";
+}
+
+<h2 class="mb-4">Proje Listesi</h2>
+
+<table class="table table-bordered table-striped">
+    <thead class="table-dark">
+        <tr>
+            <th>ID</th>
+            <th>Başlık</th>
+            <th>Başlangıç</th>
+            <th>Açıklama </th>
+            <th>Bitiş</th>
+            <th>İşlem</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var project in Model.Projects)
+        {
+            <tr>
+                <td>@project.Id</td>
+                <td>@project.Title</td>
+                <td>@project.StartDate.ToShortDateString()</td>
+                <td>@project.EndDate.ToShortDateString()</td>
+                <td>@project.Description</td>
+                <td>
+                    <a asp-page="Edit" asp-route-id="@project.Id" class="btn btn-sm btn-outline-primary">Düzenle</a>
+                    <a asp-page="Delete" asp-route-id="@project.Id" class="btn btn-sm btn-outline-danger ms-2">Sil</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-page="Add" class="btn btn-success mt-3">Yeni Proje Ekle</a>

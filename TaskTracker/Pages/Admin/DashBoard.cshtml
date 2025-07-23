@@ -1,0 +1,14 @@
+﻿@page
+@model DashboardModel
+@{
+    ViewData["Title"] = "Yönetici Paneli";
+}
+
+<h2>Yönetici Paneli</h2>
+<ul class="list-group">
+    <li class="list-group-item"><a asp-page="/Projects/List">Projeleri Listele</a></li>
+    <li class="list-group-item"><a asp-page="/Projects/Add">Yeni Proje Ekle</a></li>
+    <li class="list-group-item"><a asp-page="/Tasks/List">Görevleri Listele</a></li>
+    <li class="list-group-item"><a asp-page="/Tasks/Add">Yeni Görev Ekle</a></li>
+    <li class="list-group-item"><a asp-page="/Users/List">Kullanıcıları Yönet</a></li>
+</ul>

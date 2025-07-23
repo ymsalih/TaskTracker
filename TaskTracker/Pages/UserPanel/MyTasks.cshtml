@@ -1,0 +1,20 @@
+﻿@page
+@model MyTasksModel
+@{
+    ViewData["Title"] = "Görevlerim";
+}
+
+<h2>Görevlerim</h2>
+@if (Model.MyTasks.Any())
+{
+    <ul class="list-group">
+        @foreach (var task in Model.MyTasks)
+        {
+            <li class="list-group-item">@task.Title</li>
+        }
+    </ul>
+}
+else
+{
+    <p>Size atanmış görev bulunmamaktadır.</p>
+}

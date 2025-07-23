@@ -1,0 +1,81 @@
+﻿@page 
+@model TaskTracker.Pages.Tasks.AddModel // bu dosya AddModel isimli c# sınıfıyla bağlantılı veriyi buradan alır ve buraya gönderir 
+@{
+    ViewData["Title"] = "Yeni Görev Ekle";
+}
+
+<h2 class="mb-4">Yeni Görev</h2>
+
+<form method="post">
+    <div class="mb-3">
+        <label asp-for="TaskItem.Title" class="form-label"></label>
+        <input asp-for="TaskItem.Title" class="form-control" />
+        <span asp-validation-for="TaskItem.Title" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="TaskItem.Description" class="form-label"></label>
+        <textarea asp-for="TaskItem.Description" class="form-control" rows="3"></textarea>
+        <span asp-validation-for="TaskItem.Description" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="TaskItem.Priority" class="form-label"></label>
+        <select asp-for="TaskItem.Priority" class="form-select">
+            <option value="">-- Öncelik Seçin --</option>
+            <option value="Low">Düşük</option>
+            <option value="Medium">Orta</option>
+            <option value="High">Yüksek</option>
+        </select>
+        <span asp-validation-for="TaskItem.Priority" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="TaskItem.AssignedUserId" class="form-label">Görevi Atadığınız Kullanıcı</label>
+        <select asp-for="TaskItem.AssignedUserId" asp-items="Model.UserOptions" class="form-select">
+            <option value="">Kullanıcı Seçin</option>
+        </select>
+        <span asp-validation-for="TaskItem.AssignedUserId" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="TaskItem.Status" class="form-label"></label>
+        <select asp-for="TaskItem.Status" class="form-select">
+            <option value="">-- Durum Seçin --</option>
+            <option value="Todo">Yapılacak</option>
+            <option value="InProgress">Devam Ediyor</option>
+            <option value="Done">Tamamlandı</option>
+        </select>
+        <span asp-validation-for="TaskItem.Status" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="TaskItem.ProjectId" class="form-label">Proje</label>
+        <select asp-for="TaskItem.ProjectId" class="form-select" asp-items="Model.ProjectOptions">
+            <option value="">-- Proje Seçin --</option>
+        </select>
+        <span asp-validation-for="TaskItem.ProjectId" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-success">Kaydet</button>
+    <a asp-page="List" class="btn btn-secondary ms-2">İptal</a>
+</form>
+
+@if (!ViewData.ModelState.IsValid)
+{
+    <div class="alert alert-danger mt-4">
+        <strong>Formda eksik veya hatalı alanlar var:</strong>
+        <ul>
+            @foreach (var state in ViewData.ModelState)
+            {
+                foreach (var error in state.Value.Errors)
+                {
+                    <li>@error.ErrorMessage</li>
+                }
+            }
+        </ul>
+    </div>
+}
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

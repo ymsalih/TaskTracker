@@ -1,0 +1,17 @@
+﻿@page "{id:int}"
+@model TaskTracker.Pages.Projects.DeleteModel
+@{
+    ViewData["Title"] = "Proje Sil";
+}
+
+<h2 class="mb-4">Proje Sil</h2>
+
+<div class="alert alert-warning">
+    <strong>@Model.Project.Title</strong> başlıklı proje silinecek. Emin misiniz?
+</div>
+
+<form method="post">
+    <input type="hidden" asp-for="Project.Id" />
+    <button type="submit" class="btn btn-danger">Sil</button>
+    <a asp-page="List" class="btn btn-secondary ms-2">İptal</a>
+</form>

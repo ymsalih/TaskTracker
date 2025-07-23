@@ -1,0 +1,79 @@
+﻿@page "{id:int}"
+@model TaskTracker.Pages.Tasks.EditModel
+@{
+    ViewData["Title"] = "Görev Düzenle";
+}
+
+<h2 class="mb-4">Görev Düzenle</h2>
+
+<form method="post">
+    <input type="hidden" asp-for="TaskItem.Id" />
+
+    <div class="mb-3">
+        <label asp-for="TaskItem.Title" class="form-label"></label>
+        <input asp-for="TaskItem.Title" class="form-control" />
+        <span asp-validation-for="TaskItem.Title" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="TaskItem.AssignedUserId" class="form-label">Kullanıcı Seç</label>
+        <select asp-for="TaskItem.AssignedUserId" asp-items="Model.UserOptions" class="form-select">
+            <option value="">-- Kullanıcı Seçin --</option>
+        </select>
+        <span asp-validation-for="TaskItem.AssignedUserId" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="TaskItem.Description" class="form-label"></label>
+        <textarea asp-for="TaskItem.Description" class="form-control" rows="3"></textarea>
+        <span asp-validation-for="TaskItem.Description" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="TaskItem.Priority" class="form-label"></label>
+        <select asp-for="TaskItem.Priority" class="form-select">
+            <option value="Low">Düşük</option>
+            <option value="Medium">Orta</option>
+            <option value="High">Yüksek</option>
+        </select>
+        <span asp-validation-for="TaskItem.Priority" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="TaskItem.Status" class="form-label"></label>
+        <select asp-for="TaskItem.Status" class="form-select">
+            <option value="Todo">Yapılacak</option>
+            <option value="InProgress">Devam Ediyor</option>
+            <option value="Done">Tamamlandı</option>
+        </select>
+        <span asp-validation-for="TaskItem.Status" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="TaskItem.ProjectId" class="form-label">Proje</label>
+        <select asp-for="TaskItem.ProjectId" class="form-select" asp-items="Model.ProjectOptions">
+            <option value="">-- Proje Seçin --</option>
+        </select>
+        <span asp-validation-for="TaskItem.ProjectId" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Güncelle</button>
+    <a asp-page="List" class="btn btn-secondary ms-2">İptal</a>
+</form>
+@if (!ViewData.ModelState.IsValid)
+{
+    <div class="alert alert-danger mt-3">
+        <strong>Formda aşağıdaki hatalar var:</strong>
+        <ul class="mb-0">
+            @foreach (var entry in ViewData.ModelState)
+            {
+                foreach (var error in entry.Value.Errors)
+                {
+                    <li>@error.ErrorMessage</li>
+                }
+            }
+        </ul>
+    </div>
+}
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

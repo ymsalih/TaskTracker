@@ -1,0 +1,46 @@
+﻿@page
+@model TaskTracker.Pages.Users.ListModel
+@{
+    ViewData["Title"] = "Kullanıcı Listesi";
+
+}
+<h2>Kullanıcılar</h2>
+
+<table border="1" cellpadding="5">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Ad</th>
+            <th>Kulanıcı Adı</th>
+            <th>Rol</th>
+            <th>İşlem</th>
+            <th></th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Users != null && Model.Users.Any())
+        {
+            foreach (var user in Model.Users)
+            {
+                <tr>
+                    <td>@user.Id</td>
+                    <td>@user.Name</td>
+                    <td>@user.Username</td>
+                    <td>@user.Role</td>
+                  
+                    <td>
+                        <a asp-page="Delete" asp-route-id="@user.Id">Sil</a>
+                        <a asp-page="Edit" asp-route-id="@user.Id">Düzenle</a>
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="4">Henüz kullanıcı yok.</td>
+            </tr>
+        }
+    </tbody>
+</table>

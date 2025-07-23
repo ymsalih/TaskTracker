@@ -1,0 +1,70 @@
+﻿@page "{id:int}"
+@model TaskTracker.Pages.Users.EditModel
+@{
+    ViewData["Title"] = "Kullanıcı Düzenle";
+}
+
+<h2>Kullanıcı Düzenle</h2>
+
+<form method="post">
+    <input type="hidden" asp-for="User.Id" />
+
+    <div class="mb-3">
+        <label asp-for="User.Name" class="form-label"></label>
+        <input asp-for="User.Name" class="form-control" />
+        <span asp-validation-for="User.Name" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="User.Role" class="form-label"></label>
+        <input asp-for="User.Role" class="form-control" placeholder="Örn: Yönetici, Kullanıcı, Editör" />
+        <span asp-validation-for="User.Role" class="text-danger"></span>
+    </div>
+    <!-- 🆕 Kullanıcı Adı -->
+    <div class="mb-3">
+        <label asp-for="User.Username" class="form-label"></label>
+        <input asp-for="User.Username" class="form-control" />
+        <span asp-validation-for="User.Username" class="text-danger"></span>
+    </div>
+    <!-- 🆕 Şifre -->
+    <div class="mb-3">
+        <label asp-for="User.Password" class="form-label"></label>
+        <input asp-for="User.Password" class="form-control" type="password" />
+        <span asp-validation-for="User.Password" class="text-danger"></span>
+    </div>
+
+    <!-- 🆕 Kullanıcı Tipi -->
+    <div class="mb-3">
+        <label asp-for="User.UserType" class="form-label"></label>
+        <select asp-for="User.UserType" class="form-select">
+            <option value="">Lütfen seçin</option>
+            <option value="Yönetici">Yönetici</option>
+            <option value="Kullanıcı">Kullanıcı</option>
+        </select>
+        <span asp-validation-for="User.UserType" class="text-danger"></span>
+    </div>
+
+
+
+    <button type="submit" class="btn btn-success">Kaydet</button>
+    <a asp-page="List" class="btn btn-secondary ms-2">İptal</a>
+</form>
+
+@if (!ViewData.ModelState.IsValid)
+{
+    <div class="alert alert-danger mt-3">
+        <ul>
+            @foreach (var state in ViewData.ModelState)
+            {
+                foreach (var error in state.Value.Errors)
+                {
+                    <li>@error.ErrorMessage</li>
+                }
+            }
+        </ul>
+    </div>
+}
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

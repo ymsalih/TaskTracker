@@ -1,0 +1,20 @@
+﻿@page
+@model TaskTracker.Pages.Users.DeleteModel
+@{
+    ViewData["Title"] = "Kullanıcı Sil";
+
+}
+<h2>Kullanıcıyı Sil</h2>
+
+<p>Bu kullanıcıyı silmek istediğine emin misin?</p>
+
+<div>
+    <strong>Ad:</strong> @Model.User?.Name <br />
+    <strong>Rol:</strong> @Model.User?.Role <!-- ? olası null değeri için güvenlik sağlar -->
+</div>
+
+<form method="post">
+    <button type="submit">Sil</button>
+    <a asp-page="List">İptal</a> <!-- iptal edildiğinde listeleme sayfasına geri döndürülür -->
+</form>
+

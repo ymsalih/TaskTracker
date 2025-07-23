@@ -1,0 +1,17 @@
+﻿@page "{id:int}"
+@model TaskTracker.Pages.Tasks.DeleteModel
+@{
+    ViewData["Title"] = "Görev Sil";
+}
+
+<h2 class="mb-4">Görev Sil</h2>
+
+<div class="alert alert-warning">
+    <strong>@Model.TaskItem.Title</strong> başlıklı görev silinecek. Emin misiniz?
+</div>
+
+<form method="post">
+    <input type="hidden" asp-for="TaskItem.Id" />
+    <button type="submit" class="btn btn-danger">Sil</button>
+    <a asp-page="List" class="btn btn-secondary ms-2">İptal</a>
+</form>
