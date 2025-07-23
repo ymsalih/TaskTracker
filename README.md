@@ -1,2 +1,2 @@
 # TaskTracker
-Görev Yönetim Sistemi 
+Görev Yönetim Sistemi olup iş takip ve yönetim gibi işlemleri kolaylaştırmak 
