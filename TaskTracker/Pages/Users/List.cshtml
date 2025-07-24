@@ -1,4 +1,5 @@
-﻿@page
+﻿
+@page
 @model TaskTracker.Pages.Users.ListModel
 @{
     ViewData["Title"] = "Kullanıcı Listesi";
@@ -44,3 +45,70 @@
         }
     </tbody>
 </table>
+@section Styles {
+    <style>
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 12px;
+        }
+
+        th {
+            background-color: #343a40;
+            color: white;
+            font-weight: 600;
+            padding: 12px;
+            border-radius: 4px;
+        }
+
+        td {
+            background-color: #fff;
+            padding: 12px;
+            border-radius: 4px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+            vertical-align: middle;
+        }
+
+        tr:hover td {
+            background-color: #f8f9fa;
+            transform: scale(1.01);
+            transition: 0.2s ease;
+        }
+
+        .btn-danger, .btn-primary {
+            font-size: 0.9rem;
+            padding: 0.4rem 0.8rem;
+        }
+
+        .table-header {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            font-weight: bold;
+            color: #212529;
+        }
+       
+        body {
+            margin-top: 0 !important;
+            padding-top: 0 !important;
+        }
+
+        main {
+            margin-top: 0 !important;
+            padding-top: 0 !important;
+        }
+
+        .table-header {
+            margin-top: 0;
+        }
+
+        header + main {
+            margin-top: 0;
+        }
+
+        tr:first-child td {
+            border-top: none !important;
+        }
+   
+    </style>
+}
+

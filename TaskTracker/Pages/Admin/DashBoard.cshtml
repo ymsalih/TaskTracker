@@ -4,6 +4,7 @@
     ViewData["Title"] = "Yönetici Paneli";
 }
 
+
 <h2>Yönetici Paneli</h2>
 <ul class="list-group">
     <li class="list-group-item"><a asp-page="/Projects/List">Projeleri Listele</a></li>
@@ -12,3 +13,28 @@
     <li class="list-group-item"><a asp-page="/Tasks/Add">Yeni Görev Ekle</a></li>
     <li class="list-group-item"><a asp-page="/Users/List">Kullanıcıları Yönet</a></li>
 </ul>
+@section Styles {
+    <style>
+        .list-group-item {
+            font-size: 1.1rem;
+            padding: 1rem 1.25rem;
+            border: none;
+            border-radius: 8px;
+            margin-bottom: 0.6rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .list-group-item a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .list-group-item:hover {
+            transform: scale(1.03);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            background-color: #f8f9fa;
+        }
+    </style>
+}
