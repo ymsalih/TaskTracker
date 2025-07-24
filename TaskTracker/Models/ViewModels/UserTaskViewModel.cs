@@ -1,6 +1,7 @@
 ﻿namespace TaskTracker.Models.ViewModels
 {// bu sınıf razor page için veri taşıyıxı görevi görür 
     // ef core ile ilişkili değildir 
+    // amaç zaten ef ile almayıp çünkü o direk razora bağlı olmasın diye bu şekilde güncelledik 
     public class UserTaskViewModel
     {
         public string TaskTitle { get; set; }
