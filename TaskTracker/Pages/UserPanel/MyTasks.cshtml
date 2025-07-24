@@ -4,17 +4,52 @@
     ViewData["Title"] = "Görevlerim";
 }
 
-<h2>Görevlerim</h2>
+<h2 class="mb-4">Görevlerim</h2>
+
 @if (Model.MyTasks.Any())
 {
-    <ul class="list-group">
+    <div class="row">
         @foreach (var task in Model.MyTasks)
         {
-            <li class="list-group-item">@task.Title</li>
+            <div class="col-md-6">
+                <div class="card mb-4 shadow-sm">
+
+                    <!-- 🔷 Proje Başlığı -->
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0">@task.ProjectName</h5>
+                    </div>
+
+                    <!-- 📦 Görev Detayı -->
+                    <div class="card-body">
+                        <h6 class="text-muted mb-2">Görev Bilgileri</h6>
+                       
+                        <p><strong>Görev Başlığı:</strong> @task.TaskTitle</p>
+                        <p><strong>Görev Detayı:</strong> @task.TaskDetail</p>
+                                
+
+                        @if (task.DueDate.HasValue)
+                        {
+                            <p><strong>Teslim Tarihi:</strong> @task.DueDate.Value.ToShortDateString()</p>
+                        }
+                        else
+                        {
+                            <p><strong>Teslim Tarihi:</strong> Belirlenmemiş</p>
+                        }
+                    </div>
+
+                    <!-- 🏗️ Proje Detayı -->
+                    <div class="card-footer bg-light">
+                        <h6 class="text-muted mb-2">Proje Bilgileri</h6>
+                        <p><strong>Proje Açıklaması:</strong> @task.ProjectDescription</p>
+                        <p><strong>Proje Özellikleri:</strong> @task.ProjectFeature</p>
+                        
+                    </div>
+                </div>
+            </div>
         }
-    </ul>
+    </div>
 }
 else
 {
-    <p>Size atanmış görev bulunmamaktadır.</p>
+    <div class="alert alert-warning">Size atanmış görev bulunmamaktadır.</div>
 }

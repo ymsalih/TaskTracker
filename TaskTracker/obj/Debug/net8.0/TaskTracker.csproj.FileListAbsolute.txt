@@ -285,3 +285,4 @@ C:\Users\HP\source\repos\TaskTracker\TaskTracker\obj\Debug\net8.0\refint\TaskTra
 C:\Users\HP\source\repos\TaskTracker\TaskTracker\obj\Debug\net8.0\TaskTracker.pdb
 C:\Users\HP\source\repos\TaskTracker\TaskTracker\obj\Debug\net8.0\TaskTracker.genruntimeconfig.cache
 C:\Users\HP\source\repos\TaskTracker\TaskTracker\obj\Debug\net8.0\ref\TaskTracker.dll
+C:\Users\HP\source\repos\TaskTracker\TaskTracker\obj\Debug\net8.0\TaskTracker.sourcelink.json

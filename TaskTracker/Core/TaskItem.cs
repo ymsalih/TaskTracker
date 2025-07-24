@@ -28,6 +28,8 @@ namespace TaskTracker.Core
         // 🆕 Yeni Alan: Görev Kime Atandı
         [Display(Name = "Atanan Kullanıcı ID")]
         public int? AssignedUserId { get; set; }
+        [Display(Name ="Teslim Tarihi")]
+        public DateTime? DueDate { get; set; }
 
         // (Opsiyonel) Navigation Property
         public User? AssignedUser { get; set; }

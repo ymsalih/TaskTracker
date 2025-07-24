@@ -21,7 +21,7 @@ namespace TaskTracker.Pages.Users
         {
             Users = _context.Users.ToList();
             // sayfa yüklendiðinde tüm kullanýcýlarý çeker 
-
+         
         }
     }
 }

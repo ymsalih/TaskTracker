@@ -12,7 +12,7 @@ namespace TaskTracker.Core
         public string Name { get; set; }
 
         [Required(ErrorMessage = "Rol alanı zorunludur.")]
-        [Display(Name="Rol")]
+        [Display(Name="Deneyim Alanı")]
         public string Role { get; set; }
 
         [Required(ErrorMessage = "Kullanıcı Adı Girilmesi Zounludur.")]

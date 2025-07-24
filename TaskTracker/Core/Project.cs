@@ -16,6 +16,10 @@ namespace TaskTracker.Core
         [Display(Name = "Projenin Açıklaması")]
         public string Description { get; set; } = string.Empty; // başlangıç değeri null atanmasını engeller "" ile aynıdır çünkü kontrol yapıyoruz ya null ise diye hiç proje yoksa hata çıkmasın diye 
 
+        [Required(ErrorMessage ="Proje Özellikleri Girilmesi Zorunludur.")]
+        [Display(Name ="Projenin Özellikleri ")]
+        public string Feature { get; set; }
+
         [Required(ErrorMessage = "Başlangıç tarihi gereklidir.")] // required ise boş bir kutucuğun kalmaması için uyarı verir 
         [Display(Name = "Projenin Başlangıç Tarihi")]
         public DateTime StartDate { get; set; }
