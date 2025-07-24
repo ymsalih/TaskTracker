@@ -29,7 +29,9 @@ namespace TaskTracker.Core
         [Display(Name = "Atanan Kullanıcı ID")]
         public int? AssignedUserId { get; set; }
         [Display(Name ="Teslim Tarihi")]
-        public DateTime? DueDate { get; set; }
+        public DateTime? DueDate { get; set; } 
+        // Bu şekilde ekledik çünkü kullanıcı proje bitiş tarihini de görsün diye
+        // ayrıca hata almamak için eklendi 
 
         // (Opsiyonel) Navigation Property
         public User? AssignedUser { get; set; }

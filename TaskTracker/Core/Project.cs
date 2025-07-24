@@ -18,7 +18,8 @@ namespace TaskTracker.Core
 
         [Required(ErrorMessage ="Proje Özellikleri Girilmesi Zorunludur.")]
         [Display(Name ="Projenin Özellikleri ")]
-        public string Feature { get; set; }
+        public string Feature { get; set; } // ekledik çünkü userpanel kısmında hem hata veriyordu hem de modelview kısmında eklendi diye 
+         
 
         [Required(ErrorMessage = "Başlangıç tarihi gereklidir.")] // required ise boş bir kutucuğun kalmaması için uyarı verir 
         [Display(Name = "Projenin Başlangıç Tarihi")]
