@@ -23,7 +23,7 @@ public class MyTasksModel : PageModel
             return RedirectToPage("/AccessDenied");
 
         MyTasks = _context.Tasks
-            .Include(t => t.Project) // Proje verilerini çekiyoruz
+            .Include(t => t.Project) // Proje verilerini çekiyoruz içeriðine katýyoruz aslýnda 
             .Where(t => t.AssignedUserId == userId)
             .Select(t => new UserTaskViewModel
             {
@@ -33,6 +33,7 @@ public class MyTasksModel : PageModel
                 ProjectName = t.Project.Title,
                 ProjectDescription = t.Project.Description,
                 ProjectFeature = t.Project.Feature
+                
             })
             .ToList();
 
