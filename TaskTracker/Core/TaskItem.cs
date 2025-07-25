@@ -27,7 +27,8 @@ namespace TaskTracker.Core
 
         // 🆕 Yeni Alan: Görev Kime Atandı
         [Display(Name = "Atanan Kullanıcı ID")]
-        public int? AssignedUserId { get; set; }
+        public int? AssignedUserId { get; set; } // bu şekilde null olabilir de diyoruz aksi takdirde not null olarak geçiyor bu da hata sebebiyeti verebiliyor 
+
         [Display(Name ="Teslim Tarihi")]
         public DateTime? DueDate { get; set; } 
         // Bu şekilde ekledik çünkü kullanıcı proje bitiş tarihini de görsün diye
