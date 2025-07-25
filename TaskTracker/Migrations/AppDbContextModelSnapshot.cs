@@ -137,7 +137,8 @@ namespace TaskTracker.Migrations
                 {
                     b.HasOne("TaskTracker.Core.User", "AssignedUser")
                         .WithMany()
-                        .HasForeignKey("AssignedUserId");
+                        .HasForeignKey("AssignedUserId")
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.HasOne("TaskTracker.Core.Project", "Project")
                         .WithMany()
