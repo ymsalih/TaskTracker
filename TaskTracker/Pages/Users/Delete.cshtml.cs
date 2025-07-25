@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Mvc;
+ï»¿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using TaskTracker.Core;
 using TaskTracker.Infrastructure.Data;
@@ -11,10 +11,10 @@ namespace TaskTracker.Pages.Users
 
         public DeleteModel(AppDbContext context)
         {
-            _context = context; // users tablosuna eriþmek için 
+            _context = context; // users tablosuna eriï¿½mek iï¿½in 
         }
 
-        [BindProperty] // Bu özellik, User nesnesinin Razor tarafý ile C# tarafý arasýnda veri alýþveriþini saðlar
+        [BindProperty] // Bu ï¿½zellik, User nesnesinin Razor tarafï¿½ ile C# tarafï¿½ arasï¿½nda veri alï¿½ï¿½veriï¿½ini saï¿½lar
 
         public User User { get; set; }
 
