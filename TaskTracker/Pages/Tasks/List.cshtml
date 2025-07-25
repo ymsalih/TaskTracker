@@ -4,6 +4,25 @@
     ViewData["Title"] = "Görev Listesi";
 }
 
+@functions {
+    public string TranslatePriority(string priority) => priority switch
+    {
+        "High" => "Yüksek",
+        "Medium" => "Orta",
+        "Low" => "Düşük",
+        _ => priority
+
+    };
+
+    public string TranslateStatus(string status) => status switch
+    {
+        "Todo" => "Yapılacak",
+        "Inprogress" => "Devam Ediyor",
+        "Done" => "Tamamlandı",
+        _ => status
+    };
+}
+
 <h2 class="mb-4">Görev Listesi</h2>
 
 <!-- 🔍 Proje filtreleme dropdown'u -->
@@ -37,12 +56,12 @@
     <tbody>
         @foreach (var task in Model.Tasks)
         {
-            <tr>
+            <tr> 
                 <td>@task.Id</td>
                 <td>@task.Title</td>
-                <td>@task.Priority</td>
+                <td>@TranslatePriority(task.Priority)</td>
                 <td>@task.Description</td>
-                <td>@task.Status</td>
+                <td>@TranslateStatus(task.Status)</td>
                 <td>@task.Project?.Title</td>
                 <td>
                     @if (task.AssignedUser != null)
