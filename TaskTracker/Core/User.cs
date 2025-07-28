@@ -26,5 +26,7 @@ namespace TaskTracker.Core
         [Required(ErrorMessage ="Kullanıcı Tipi")]
         [Display(Name="Kullanıcı Tipi girilmeli ")]
         public string UserType { get; set; }
+
+        public ICollection<TaskUser> TaskUsers { get; set; } = new List<TaskUser>();
     }
 }

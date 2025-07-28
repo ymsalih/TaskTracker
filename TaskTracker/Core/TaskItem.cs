@@ -36,6 +36,7 @@ namespace TaskTracker.Core
 
         // (Opsiyonel) Navigation Property
         public User? AssignedUser { get; set; }
-       
+
+        public ICollection<TaskUser> TaskUsers { get; set; } = new List<TaskUser>();
     }
 }
