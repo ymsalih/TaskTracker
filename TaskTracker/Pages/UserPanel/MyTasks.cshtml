@@ -3,6 +3,19 @@
 @{
     ViewData["Title"] = "Görevlerim";
 }
+@functions {
+    public string TranslateStatus(string status)
+    {
+        return status switch
+        {
+            "Todo" => "Yapılacak", // eşleşen durum ve karşılığı şeklinde misal buraya taksstatus kısımlarını gönderdik eşleşen öğeyi türkçeye çevirir içinde yoksa çevirmez 
+            "InProgress" => "Devam Ediyor", 
+            "Done" => "Tamamlandı",
+            _ => "Bilinmiyor"
+        };
+    }
+}
+
 
 <h2 class="mb-4">Görevlerim</h2>
 
@@ -25,11 +38,10 @@
 
                         <p><strong>Görev Başlığı:</strong> @task.TaskTitle</p>
                         <p><strong>Görev Detayı:</strong> @task.TaskDetail</p>
+                        <p><strong>Görev Durumu:</strong> @TranslateStatus(task.TaskStatus)</p>
 
-                        <p>
-                            <strong>Durum:</strong>
-                            <span class="badge bg-secondary">Görev durumu belirtilmemiş</span> <!-- İstersen ViewModel'e Status ekleyip gösterebiliriz -->
-                        </p>
+                       
+                          
 
                         @if (task.DueDate.HasValue)
                         {

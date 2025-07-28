@@ -35,7 +35,8 @@ public class MyTasksModel : PageModel
             {
                 TaskTitle = t.Title,
                 TaskDetail = t.Description,
-                DueDate = t.DueDate,
+                TaskStatus=t.Status,
+                DueDate = t.Project.EndDate,
                 ProjectName = t.Project.Title,
                 ProjectDescription = t.Project.Description,
                 ProjectFeature = t.Project.Feature
