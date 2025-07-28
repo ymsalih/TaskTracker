@@ -14,6 +14,9 @@ public class EditModel : PageModel
     [BindProperty]
     public TaskItem TaskItem { get; set; } = new();
 
+    [BindProperty]
+    public List<int> SelectedUserIds { get; set; } = new();
+
     public List<SelectListItem> ProjectOptions { get; set; } = new();
     public List<SelectListItem> UserOptions { get; set; } = new();
 
@@ -24,9 +27,15 @@ public class EditModel : PageModel
 
     public async Task<IActionResult> OnGetAsync(int id)
     {
-        TaskItem = await _context.Tasks.FindAsync(id);
+        TaskItem = await _context.Tasks
+            .Include(t => t.TaskUsers)
+            .FirstOrDefaultAsync(t => t.Id == id);
+
         if (TaskItem == null)
             return NotFound();
+
+        // Önceden atanmış kullanıcıları SelectedUserIds'e aktar
+        SelectedUserIds = TaskItem.TaskUsers.Select(tu => tu.UserId).ToList();
 
         await LoadDropdowns();
         return Page();
@@ -40,17 +49,36 @@ public class EditModel : PageModel
             return Page();
         }
 
-        var existingTask = await _context.Tasks.FindAsync(TaskItem.Id);
+        var existingTask = await _context.Tasks
+            .Include(t => t.TaskUsers)
+            .FirstOrDefaultAsync(t => t.Id == TaskItem.Id);
+
         if (existingTask == null)
             return NotFound();
 
-        // 🎯 Güncellenecek alanlar
+        // 🎯 Görev alanlarını güncelle
         existingTask.Title = TaskItem.Title;
         existingTask.Description = TaskItem.Description;
         existingTask.Status = TaskItem.Status;
         existingTask.Priority = TaskItem.Priority;
         existingTask.ProjectId = TaskItem.ProjectId;
-        existingTask.AssignedUserId = TaskItem.AssignedUserId;
+
+        // 🔀 Hibrit kullanıcı atama
+        existingTask.AssignedUserId = (SelectedUserIds.Count == 1)
+            ? SelectedUserIds.First()
+            : null;
+
+        // 🔄 TaskUser ilişkilerini güncelle
+        _context.TaskUsers.RemoveRange(existingTask.TaskUsers);
+
+        foreach (var userId in SelectedUserIds)
+        {
+            _context.TaskUsers.Add(new TaskUser
+            {
+                TaskId = TaskItem.Id,
+                UserId = userId
+            });
+        }
 
         try
         {

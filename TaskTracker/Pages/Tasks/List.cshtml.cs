@@ -26,13 +26,13 @@ public class ListModel : PageModel
 
     public async Task<IActionResult> OnGetAsync()
     {
-        var userType = HttpContext.Session.GetString("UserType");   // ✅ Güncellenen kısım: Role değil, UserType
+        var userType = HttpContext.Session.GetString("UserType");
         var userId = HttpContext.Session.GetInt32("UserId");
 
         if (string.IsNullOrEmpty(userType))
             return RedirectToPage("/Auth/Login");
 
-        // 🔽 Dropdown verisi: Projeleri al
+        // 🔽 Dropdown verisi: Projeler listesi
         ProjectOptions = await _context.Projects
             .Select(p => new SelectListItem
             {
@@ -40,10 +40,12 @@ public class ListModel : PageModel
                 Text = p.Title
             }).ToListAsync();
 
-        // 📦 Görevleri sorgula
+        // 📦 Görevleri sorgula (proje, atayan kullanıcı, görev–kullanıcı ilişkileri)
         var query = _context.Tasks
             .Include(t => t.Project)
             .Include(t => t.AssignedUser)
+            .Include(t => t.TaskUsers)
+                .ThenInclude(tu => tu.User)
             .AsQueryable();
 
         if (userType == "Yönetici")
@@ -53,7 +55,10 @@ public class ListModel : PageModel
         }
         else if (userType == "Kullanıcı" && userId != null)
         {
-            query = query.Where(t => t.AssignedUserId == userId);
+            // Kullanıcının bireysel atanmış görevleri + ekip görevleri
+            query = query.Where(t =>
+                t.AssignedUserId == userId ||
+                t.TaskUsers.Any(tu => tu.UserId == userId));
 
             if (ProjectId.HasValue)
                 query = query.Where(t => t.ProjectId == ProjectId.Value);

@@ -11,7 +11,6 @@
         "Medium" => "Orta",
         "Low" => "Düşük",
         _ => priority
-
     };
 
     public string TranslateStatus(string status) => status switch
@@ -49,14 +48,14 @@
             <th>Açıklama</th>
             <th>Durum</th>
             <th>Proje</th>
-            <th>Kullanıcı</th>
+            <th>Kullanıcılar</th>
             <th>İşlem</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var task in Model.Tasks)
         {
-            <tr> 
+            <tr>
                 <td>@task.Id</td>
                 <td>@task.Title</td>
                 <td>@TranslatePriority(task.Priority)</td>
@@ -64,9 +63,18 @@
                 <td>@TranslateStatus(task.Status)</td>
                 <td>@task.Project?.Title</td>
                 <td>
-                    @if (task.AssignedUser != null)
+                    @if (task.AssignedUser != null && (task.TaskUsers == null || !task.TaskUsers.Any()))
                     {
-                        @($"{task.AssignedUser.Name} (ID: {task.AssignedUser.Id})")
+                        <!-- Tek kişilik atama -->
+                        <span class="badge bg-primary">@task.AssignedUser.Name</span>
+                    }
+                    else if (task.TaskUsers != null && task.TaskUsers.Any())
+                    {
+                        <!-- Çok kişilik atama -->
+                        @foreach (var user in task.TaskUsers.Select(tu => tu.User))
+                        {
+                            <span class="badge bg-secondary me-1">@user.Name</span>
+                        }
                     }
                     else
                     {

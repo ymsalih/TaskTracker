@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 using TaskTracker.Core;
 using TaskTracker.Infrastructure.Data;
 
@@ -12,6 +13,8 @@ public class DeleteModel : PageModel
     [BindProperty]
     public TaskItem TaskItem { get; set; } = new();
 
+    public List<User> AssociatedUsers { get; set; } = new();
+
     public DeleteModel(AppDbContext context)
     {
         _context = context;
@@ -19,21 +22,35 @@ public class DeleteModel : PageModel
 
     public async Task<IActionResult> OnGetAsync(int id)
     {
-        var task = await _context.Tasks.FindAsync(id);
-        if (task == null)
+        TaskItem = await _context.Tasks
+            .Include(t => t.AssignedUser)
+            .Include(t => t.TaskUsers)
+                .ThenInclude(tu => tu.User)
+            .FirstOrDefaultAsync(t => t.Id == id);
+
+        if (TaskItem == null)
             return NotFound();
 
-        TaskItem = task;
+        AssociatedUsers = TaskItem.TaskUsers.Select(tu => tu.User).ToList();
+
         return Page();
     }
 
     public async Task<IActionResult> OnPostAsync()
     {
-        var task = await _context.Tasks.FindAsync(TaskItem.Id);
+        var task = await _context.Tasks
+            .Include(t => t.TaskUsers)
+            .FirstOrDefaultAsync(t => t.Id == TaskItem.Id);
+
         if (task == null)
             return NotFound();
 
+        // 🔄 Görev–Kullanıcı ilişkilerini sil
+        _context.TaskUsers.RemoveRange(task.TaskUsers);
+
+        // 🔴 Görevi sil
         _context.Tasks.Remove(task);
+
         await _context.SaveChangesAsync();
 
         return RedirectToPage("List");

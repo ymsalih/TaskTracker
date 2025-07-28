@@ -1,5 +1,5 @@
-﻿@page 
-@model TaskTracker.Pages.Tasks.AddModel // bu dosya AddModel isimli c# sınıfıyla bağlantılı veriyi buradan alır ve buraya gönderir 
+﻿@page
+@model TaskTracker.Pages.Tasks.AddModel
 @{
     ViewData["Title"] = "Yeni Görev Ekle";
 }
@@ -29,12 +29,18 @@
         </select>
         <span asp-validation-for="TaskItem.Priority" class="text-danger"></span>
     </div>
+
     <div class="mb-3">
-        <label asp-for="TaskItem.AssignedUserId" class="form-label">Görevi Atadığınız Kullanıcı</label>
-        <select asp-for="TaskItem.AssignedUserId" asp-items="Model.UserOptions" class="form-select">
-            <option value="">Kullanıcı Seçin</option>
-        </select>
-        <span asp-validation-for="TaskItem.AssignedUserId" class="text-danger"></span>
+        <label class="form-label">Görevlendirilecek Kullanıcılar</label>
+        @foreach (var user in Model.UserOptions)
+        {
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox"
+                       name="SelectedUserIds" value="@user.Value" id="user_@user.Value" />
+                <label class="form-check-label" for="user_@user.Value">@user.Text</label>
+            </div>
+        }
+        <span asp-validation-for="SelectedUserIds" class="text-danger"></span>
     </div>
 
     <div class="mb-3">

@@ -7,7 +7,26 @@
 <h2 class="mb-4">Görev Sil</h2>
 
 <div class="alert alert-warning">
-    <strong>@Model.TaskItem.Title</strong> başlıklı görev silinecek. Emin misiniz?
+    <strong>@Model.TaskItem.Title</strong> başlıklı görev silinecek.<br />
+    <span class="text-danger">Bu görev aşağıdaki kullanıcılara atanmış durumda:</span>
+    <ul>
+        @if (Model.TaskItem.AssignedUserId != null && (Model.AssociatedUsers == null || !Model.AssociatedUsers.Any()))
+        {
+            <li>@Model.TaskItem.AssignedUser?.Name</li>
+        }
+        else if (Model.AssociatedUsers != null && Model.AssociatedUsers.Any())
+        {
+            @foreach (var user in Model.AssociatedUsers)
+            {
+                <li>@user.Name</li>
+            }
+        }
+        else
+        {
+            <li><em>Atanmış kullanıcı yok</em></li>
+        }
+    </ul>
+    <strong>Silme işlemi tüm ilişkileri kaldıracaktır. Emin misiniz?</strong>
 </div>
 
 <form method="post">
