@@ -95,6 +95,21 @@ namespace TaskTracker.Migrations
                     b.ToTable("Tasks");
                 });
 
+            modelBuilder.Entity("TaskTracker.Core.TaskUser", b =>
+                {
+                    b.Property<int>("TaskId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("TaskId", "UserId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("TaskUsers");
+                });
+
             modelBuilder.Entity("TaskTracker.Core.User", b =>
                 {
                     b.Property<int>("Id")
@@ -151,6 +166,25 @@ namespace TaskTracker.Migrations
                     b.Navigation("Project");
                 });
 
+            modelBuilder.Entity("TaskTracker.Core.TaskUser", b =>
+                {
+                    b.HasOne("TaskTracker.Core.TaskItem", "Task")
+                        .WithMany("TaskUsers")
+                        .HasForeignKey("TaskId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("TaskTracker.Core.User", "User")
+                        .WithMany("TaskUsers")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Task");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("TaskTracker.Core.User", b =>
                 {
                     b.HasOne("TaskTracker.Core.Project", null)
@@ -161,6 +195,16 @@ namespace TaskTracker.Migrations
             modelBuilder.Entity("TaskTracker.Core.Project", b =>
                 {
                     b.Navigation("Members");
+                });
+
+            modelBuilder.Entity("TaskTracker.Core.TaskItem", b =>
+                {
+                    b.Navigation("TaskUsers");
+                });
+
+            modelBuilder.Entity("TaskTracker.Core.User", b =>
+                {
+                    b.Navigation("TaskUsers");
                 });
 #pragma warning restore 612, 618
         }
