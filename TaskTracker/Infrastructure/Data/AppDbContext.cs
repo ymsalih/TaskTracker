@@ -1,48 +1,46 @@
-﻿using Microsoft.EntityFrameworkCore; // kütüphaneyi dahil etmek için bu olmadam DbContext ve DbSet gibi yapılara erişemem 
-using System.Collections.Generic; // ileride kullanılacak list<> türleri çin gerekli
-using TaskTracker.Core; // veritabanı bağlayacağımız model sınıflarını içeren namespace
+﻿using Microsoft.EntityFrameworkCore; // EF Core özelliklerini kullanmak için gerekli
+using System.Collections.Generic; // List<T> gibi koleksiyonlar için gerekli
+using TaskTracker.Core; // Veritabanı modellerine erişim sağlar
 
-// veritabanı işlemlerini yöneten klasördür 
-// bu dosya modelleri veritabanına bağlayan bir köprü gibi çalışır 
-// AppSbContext Entity framework Core ile veritabanı bağlantısını sağlar 
-// tüm modelleri fiziksel veritabanı tablolarıyla eşleştiren yerlerdir 
-
-namespace TaskTracker.Infrastructure.Data // proje yapısındaki mantıksal ayrımı temsil eder 
+namespace TaskTracker.Infrastructure.Data // Mantıksal proje organizasyonu
 {
- 
-    public class AppDbContext : DbContext // DbContext ten miras alıyoruz bu sınıf ile veritabanında işlemler yapabiliyoruz
+    public class AppDbContext : DbContext // EF Core'un temel veri yöneticisi sınıfı
     {
-
-        // bağlantı bilgilerini ve konfigrasyonu startup.cs veya program.cs gibi yerlerden alıp EF Cora ileten kurucu method 
-        // Bu yapı Dependency Injection sayesinde otomatik olarak yapılandırılır ve yönetilir.
-        // veritabanında ki tabloları temsil eder 
-        // her biri veritabanında bir tabloya denk gelir 
+        // Kurucu metod, DI üzerinden bağlantı ayarlarını alır
         public AppDbContext(DbContextOptions<AppDbContext> options)
-            : base(options) { } // options nesnesi appstetting.json da belirttiğimiz connection string ile veritabanına bağlanır 
+            : base(options) { } // connection string ile veritabanı bağlantısı sağlanır
 
-        public DbSet<User> Users { get; set; }
-        public DbSet<Project> Projects { get; set; }
-        public DbSet<TaskItem> Tasks { get; set; }
+        // Tablolara karşılık gelen DbSet tanımları
+        public DbSet<User> Users { get; set; } // Kullanıcılar tablosu
+        public DbSet<Project> Projects { get; set; } // Projeler tablosu
+        public DbSet<TaskItem> Tasks { get; set; } // Görevler tablosu
+        public DbSet<TaskUser> TaskUsers { get; set; } // Görev–Kullanıcı eşleşme tablosu (many-to-many)
 
-        // bu tanuımlar sayesinde veritabanında tablolar oluşturur ve bu tablolara sorgular gönderebiliriz  
-        protected override void OnModelCreating(ModelBuilder modelBuilder) // veritabanı modellerini özelleştirmek için 
+        // Model yapılandırma metodu
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder); // bağlantıları nasıl yöneteceğini söylediğimiz yerdir 
-            // bunu ekleme amacımız ise EF Corun varsayılan kurallarını korumak için aksi takdirde hata alırız 
-            modelBuilder.Entity<TaskItem>() // görevlerle ilgili konuşma olacak 
-                .HasOne(t => t.AssignedUser) // bire bir ilişki vardır yani görev bir kullanıcıya atanmış 
-                .WithMany() //kullanıcının birden fazla görevi olabilir 
-                .HasForeignKey(t => t.AssignedUserId) // veritabanı bağlantısı olarak kullanır 
-                .OnDelete(DeleteBehavior.SetNull); // 🔥 Anahtar davranışı burada artık kullanıcı silinirse görevdeki AssignedUserId otomatik olarak null kalır 
-       // eğer bir kullanıcı silinirse ve ona bağlı görev varsa o görevi silme sadece referansını boşalt 
-        // daha sonrasında migration ile bu güncel bilgileri veritabanı için uyguladık 
-        // böylece ilişkiyi SetNull davranışıyla güncelledi 
-        // oluşturulma nedeni normalde modelin sadece veriyi tanımlaması ama ilişki davranışlarını tanımlamaması olduğundan ekledik 
+            base.OnModelCreating(modelBuilder); // EF Core'un varsayılan kurallarını koru
+
+            // 👤 Görev – Tek Kullanıcı (AssignedUserId ile birebir ilişkili)
+            modelBuilder.Entity<TaskItem>() // Görev modeli üzerinde çalışıyoruz
+                .HasOne(t => t.AssignedUser) // Görev, bir kullanıcıya atanmış olabilir
+                .WithMany() // Bir kullanıcı birden fazla görevde çalışabilir
+                .HasForeignKey(t => t.AssignedUserId) // ForeignKey tanımı
+                .OnDelete(DeleteBehavior.SetNull); // Kullanıcı silinirse görev boşa düşsün (silinmesin)
+
+            // 👥 Görev – Çoklu Kullanıcı İlişkisi (many-to-many ara tablosu)
+            modelBuilder.Entity<TaskUser>() // Ara tablo: görev ile kullanıcı arasında eşleşme tutar
+                .HasKey(tu => new { tu.TaskId, tu.UserId }); // Composite primary key: her görev-kullanıcı eşleşmesi benzersiz olmalı
+
+            modelBuilder.Entity<TaskUser>() // Görev bağlantısı
+                .HasOne(tu => tu.Task) // Her eşleşme bir görevle bağlıdır
+                .WithMany(t => t.TaskUsers) // Bir görev birden fazla kullanıcı ile eşleşebilir
+                .HasForeignKey(tu => tu.TaskId); // Görev FK’si
+
+            modelBuilder.Entity<TaskUser>() // Kullanıcı bağlantısı
+                .HasOne(tu => tu.User) // Her eşleşme bir kullanıcı ile bağlıdır
+                .WithMany(u => u.TaskUsers) // Bir kullanıcı birçok görevle ilişkilendirilebilir
+                .HasForeignKey(tu => tu.UserId); // Kullanıcı FK’si
         }
     }
-
 }
-// Bu dosya EF Corenin ilişkileri yönettiği merkezdir
-// Dependency Injection ise bir sınıfın ihtiyaç duyduğu bağımlılıkları kendi içinde oluşturmadan dışarıdan alması anlamına gelir  
-// kısacası veritabanı kurallara göre çalışır biz de bu şekilde kuralları tanımlamış olduk 
-// EF Core veritabanını oluştururken ve sorgu hazırlanırken bu dosyadaki kurallara göre davranır 
