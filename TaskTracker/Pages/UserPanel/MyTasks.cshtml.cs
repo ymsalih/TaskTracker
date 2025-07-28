@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Mvc;
+ï»¿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using TaskTracker.Infrastructure.Data;
@@ -16,26 +16,26 @@ public class MyTasksModel : PageModel
 
     public async Task<IActionResult> OnGetAsync()
     {
-       
+
 
         var role = HttpContext.Session.GetString("UserType");
         var userId = HttpContext.Session.GetInt32("UserId");
 
-        if (role != "Kullanýcý" || userId == null)
-            return RedirectToPage("/AccessDenied");
+        if (role != "KullanÄ±cÄ±" || userId == null)
+            return RedirectToPage("/UserPanel/MyTasks");
 
         MyTasks = await _context.Tasks
             .Include(t => t.Project)
             .Include(t => t.TaskUsers)
             .Where(t =>
-                t.AssignedUserId == userId ||              // Tekil görevler
-                t.TaskUsers.Any(tu => tu.UserId == userId) // Çoklu görevler
+                t.AssignedUserId == userId ||              // Tekil gÃ¶revler
+                t.TaskUsers.Any(tu => tu.UserId == userId) // Ã‡oklu gÃ¶revler
             )
             .Select(t => new UserTaskViewModel
             {
                 TaskTitle = t.Title,
                 TaskDetail = t.Description,
-                TaskStatus=t.Status,
+                TaskStatus = t.Status,
                 DueDate = t.Project.EndDate,
                 ProjectName = t.Project.Title,
                 ProjectDescription = t.Project.Description,
