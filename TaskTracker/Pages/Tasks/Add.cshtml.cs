@@ -16,7 +16,7 @@ public class AddModel : PageModel
 
     // 📌 Çoklu kullanıcı seçimi: checkbox’larla gönderilen kullanıcı ID’leri burada tutulur
     [BindProperty]
-    public List<int> SelectedUserIds { get; set; } = new();
+    public List<int> SelectedUserIds { get; set; } = new(); // Razor arayüzünden gerlen checkbox seçimlerinin taşıyıcısı 
 
     // 📌 Proje ve kullanıcı dropdown/checkbox’ları için seçenek listeleri
     public List<SelectListItem> ProjectOptions { get; set; } = new();
