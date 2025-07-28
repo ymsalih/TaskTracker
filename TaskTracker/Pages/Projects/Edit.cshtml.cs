@@ -33,6 +33,20 @@ public class EditModel : PageModel
         if (!ModelState.IsValid)
             return Page();
 
+        // Bitiş tarihi kontrolü
+        if (Project.EndDate < Project.StartDate)
+        {
+            ModelState.AddModelError("Project.EndDate", "Bitiş tarihi başlangıç tarihinden önce olamaz.");
+            return Page();
+        }
+
+        // StartDate'i veritabanından çekip override ediyoruz (readonly alandan veri gelmiyor olabilir)
+        var existingProject = await _context.Projects.AsNoTracking().FirstOrDefaultAsync(p => p.Id == Project.Id);
+        if (existingProject == null)
+            return NotFound();
+
+        Project.StartDate = existingProject.StartDate;
+
         _context.Attach(Project).State = EntityState.Modified;
 
         try

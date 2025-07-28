@@ -12,6 +12,7 @@
         <input asp-for="Project.Title" class="form-control" />
         <span asp-validation-for="Project.Title" class="text-danger"></span>
     </div>
+
     <div class="mb-3">
         <label asp-for="Project.Description" class="form-label">Proje Açıklaması</label>
         <textarea asp-for="Project.Description" class="form-control" rows="4" placeholder="Proje hakkında kısa açıklama yazın..."></textarea>
@@ -19,12 +20,17 @@
     </div>
 
     <div class="mb-3">
+        <label asp-for="Project.Feature" class="form-label">Proje Özellikleri</label>
+        <textarea asp-for="Project.Feature" class="form-control" rows="4" placeholder="Proje özelliklerini yazın..."></textarea>
+        <span asp-validation-for="Project.Feature" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
         <label asp-for="Project.StartDate" class="form-label"></label>
         <input asp-for="Project.StartDate"
                type="date"
                class="form-control"
-               min="@DateTime.Today.ToString("yyyy-MM-dd")"
-               value="@Model.Project.StartDate.ToString("yyyy-MM-dd")" />
+               min="@DateTime.Today.ToString("yyyy-MM-dd")" />
         <span asp-validation-for="Project.StartDate" class="text-danger"></span>
     </div>
 
@@ -33,8 +39,7 @@
         <input asp-for="Project.EndDate"
                type="date"
                class="form-control"
-               min="@DateTime.Today.ToString("yyyy-MM-dd")"
-               value="@Model.Project.EndDate.ToString("yyyy-MM-dd")" />
+               min="@DateTime.Today.ToString("yyyy-MM-dd")" />
         <span asp-validation-for="Project.EndDate" class="text-danger"></span>
     </div>
 
@@ -45,4 +50,3 @@
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }
-

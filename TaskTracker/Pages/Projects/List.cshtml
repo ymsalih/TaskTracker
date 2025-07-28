@@ -14,6 +14,7 @@
             <th>Başlangıç</th>
             <th>Bitiş</th>
             <th>Açıklama </th>
+            <th>Özellikler </th>
             <th>İşlem</th>
         </tr>
     </thead>
@@ -26,6 +27,7 @@
                 <td>@project.StartDate.ToShortDateString()</td>
                 <td>@project.EndDate.ToShortDateString()</td>
                 <td>@project.Description</td>
+                <td>@project.Feature</td>
                 <td>
                     <a asp-page="Edit" asp-route-id="@project.Id" class="btn btn-sm btn-outline-primary">Düzenle</a>
                     <a asp-page="Delete" asp-route-id="@project.Id" class="btn btn-sm btn-outline-danger ms-2">Sil</a>

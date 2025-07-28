@@ -19,43 +19,34 @@ public class AddModel : PageModel
 
     public void OnGet()
     {
-        // Gerekirse dropdown hazırlığı yapılabilir
+        // Örneğin: kategori, kullanıcı vb. dropdown listeler burada hazırlanabilir
     }
 
     public IActionResult OnPost()
     {
-        // 👀 Tarih doğrulaması – geçmişe izin verilmez
+        // 📅 Tarih doğrulaması
         if (Project.StartDate < DateTime.Today)
         {
-            ModelState.AddModelError("Project.StartDate", "Başlangıç tarihi bugünden önce olamaz.");
+            ModelState.AddModelError(nameof(Project.StartDate), "Başlangıç tarihi bugünden önce olamaz.");
         }
 
         if (Project.EndDate < DateTime.Today)
         {
-            ModelState.AddModelError("Project.EndDate", "Bitiş tarihi bugünden önce olamaz.");
+            ModelState.AddModelError(nameof(Project.EndDate), "Bitiş tarihi bugünden önce olamaz.");
         }
 
-        // 📅 Ek kontrol: Başlangıç tarihi bitiş tarihinden sonra olmasın
         if (Project.EndDate < Project.StartDate)
         {
-            ModelState.AddModelError(string.Empty, "Bitiş tarihi, başlangıç tarihinden önce olamaz.");
+            ModelState.AddModelError(nameof(Project.EndDate), "Bitiş tarihi, başlangıç tarihinden önce olamaz.");
         }
 
-        // 🔍 ModelState hataları varsa detayları göster
+        // ⛔ Model geçerli değilse geri dön
         if (!ModelState.IsValid)
         {
-            foreach (var entry in ModelState)
-            {
-                foreach (var error in entry.Value.Errors)
-                {
-                    Console.WriteLine($"Alan: {entry.Key} - Hata: {error.ErrorMessage}");
-                }
-            }
-
             return Page();
         }
 
-        // ✅ Her şey yolundaysa kaydet
+        // ✅ Kayıt işlemi
         _context.Projects.Add(Project);
         _context.SaveChanges();
 
