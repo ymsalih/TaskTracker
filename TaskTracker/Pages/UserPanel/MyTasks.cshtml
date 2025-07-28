@@ -22,10 +22,14 @@
                     <!-- 📦 Görev Detayı -->
                     <div class="card-body">
                         <h6 class="text-muted mb-2">Görev Bilgileri</h6>
-                       
+
                         <p><strong>Görev Başlığı:</strong> @task.TaskTitle</p>
                         <p><strong>Görev Detayı:</strong> @task.TaskDetail</p>
-                                
+
+                        <p>
+                            <strong>Durum:</strong>
+                            <span class="badge bg-secondary">Görev durumu belirtilmemiş</span> <!-- İstersen ViewModel'e Status ekleyip gösterebiliriz -->
+                        </p>
 
                         @if (task.DueDate.HasValue)
                         {
@@ -37,12 +41,11 @@
                         }
                     </div>
 
-                    <!-- 🏗️ Proje Detayı Bu şekilde bloklara ayrıldı -->
+                    <!-- 🏗️ Proje Detayı -->
                     <div class="card-footer bg-light">
                         <h6 class="text-muted mb-2">Proje Bilgileri</h6>
                         <p><strong>Proje Açıklaması:</strong> @task.ProjectDescription</p>
                         <p><strong>Proje Özellikleri:</strong> @task.ProjectFeature</p>
-                        
                     </div>
                 </div>
             </div>
