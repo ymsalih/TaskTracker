@@ -1,5 +1,5 @@
 # Görev Yönetim Sistemi Web Uygulaması
-
+---
 ## Ekran Görüntüleri
 <div align="center">
 <img width="1918" height="1013" alt="Ekran görüntüsü 2026-01-12 101504" src="https://github.com/user-attachments/assets/eb68b256-8db2-40a1-b340-fc8beedbac8d" />
@@ -15,6 +15,7 @@
 <img width="1918" height="723" alt="Ekran görüntüsü 2026-01-12 102409" src="https://github.com/user-attachments/assets/9146c236-0827-4663-9477-c7a660c2637a" />
 
 </div>
+---
 
 ## 📌 Proje Hakkında
 Bu proje, **ASP.NET Core** ve **Razor Pages** kullanılarak geliştirilmiş bir **Görev Yönetim Sistemi (Task Management System)** web uygulamasıdır.  
